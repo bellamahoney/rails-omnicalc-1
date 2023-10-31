@@ -1,0 +1,41 @@
+class GameController < ApplicationController
+
+def square_result
+  @num = params.fetch("users_number").to_f
+  @result = @num ** 2
+ 
+   render({ :template => "my_templates/square_result" })
+  end 
+ 
+def square_root_result
+ @num = params.fetch("users_number").to_f
+  @result = @num ** 0.5
+  
+  render({ :template => "my_templates/square_root_result" })
+  end 
+
+def payment_result 
+  @apr = (params.fetch("users_apr").to_f/100)
+  @num_years = params.fetch("users_years").to_f
+  @principal = params.fetch("users_principal").to_f
+  @months = @num_years*12
+  @rate = @apr/12
+  @apr_percent = @apr*100
+  @principal_curr = @principal.to_fs(:currency)
+  @payment = (@rate * @principal) / (1 - ((1 + @rate)**(-@months)))
+  @payment_curr = @payment.to_fs(:currency)
+
+   render({ :template => "my_templates/payment_result" })
+   end 
+
+   def random_result 
+    @minimum = params.fetch("minimum").to_f
+  @maximum = params.fetch("maximum").to_f
+  @random = rand(@minimum..@maximum)
+  render({ :template => "my_templates/random_result" })
+   end 
+
+ def home
+    render({ :template => "my_templates/new_square_calc" })
+  end
+end 
